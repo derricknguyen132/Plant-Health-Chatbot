@@ -1,8 +1,5 @@
 # Main chatbot function that integrates all components
 def chatbot_response(prompt, df, model):
-    if not is_prompt_relevant(prompt):
-        return "I'm sorry, it appears I have trouble understanding your request or your request is out of my scope. Please consider rephrasing, elaborating or changing your question."
-
     combined_answers = find_similar_questions_and_answers(prompt, df)
 
     if combined_answers:
