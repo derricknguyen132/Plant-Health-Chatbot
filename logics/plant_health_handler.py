@@ -2,7 +2,7 @@ from helper_functions.llm import find_similar_questions_and_answers, synthesize_
 
 # Main chatbot function that integrates all components
 def chatbot_response(prompt, df, model):
-    combined_answers = find_similar_questions_and_answers(prompt, df)
+    combined_answers = find_similar_questions_and_answers(prompt, df, model)
 
     if combined_answers:
         final_answer = synthesize_final_answer(prompt, combined_answers)
