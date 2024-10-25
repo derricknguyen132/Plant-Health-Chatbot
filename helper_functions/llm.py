@@ -2,7 +2,7 @@ import openai
 from openai import OpenAI
 
 # Initialize OpenAI client
-client = OpenAI(api_key="API_KEY")
+client = OpenAI(api_key="API_KEY_OPENAI")
 
 # Determine relevance of prompt
 def is_prompt_relevant(prompt):
