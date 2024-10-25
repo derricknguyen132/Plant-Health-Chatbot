@@ -1,8 +1,19 @@
-import openai
+import os
+import streamlit as st
+from dotenv import load_dotenv
 from openai import OpenAI
+import tiktoken
+
+
+if load_dotenv('.env'):
+   # for local development
+   OPENAI_KEY = os.getenv('OPENAI_API_KEY')
+else:
+   OPENAI_KEY = st.secrets['OPENAI_API_KEY']
+
 
 # Pass the API Key to the OpenAI Client
-client = OpenAI(api_key='OPENAI_KEY')
+client = OpenAI(api_key=OPENAI_KEY)
 
 # Determine relevance of prompt
 def is_prompt_relevant(prompt):
@@ -45,7 +56,7 @@ def find_similar_questions_and_answers(user_input, df, model):
 # Function to synthesize the final answer using GPT
 def synthesize_final_answer(prompt, combined_answers):
     combined_text = " ".join(combined_answers)
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
