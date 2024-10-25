@@ -13,8 +13,8 @@ def is_prompt_relevant(prompt):
         f"({gardening_keywords}), would someone looking for advice ask this: {prompt}?"
     )
 
-    # Updated method for version 1.0.0
-    response = openai.Chat.completions.create(
+    # Corrected method for version 1.0.0
+    response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful analyst."},
@@ -42,7 +42,7 @@ def find_similar_questions_and_answers(user_input, df):
 # Function to synthesize the final answer using GPT
 def synthesize_final_answer(prompt, combined_answers):
     combined_text = " ".join(combined_answers)
-    response = openai.Chat.completions.create(
+    response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
@@ -53,7 +53,7 @@ def synthesize_final_answer(prompt, combined_answers):
 
 # Function to generate a self-generated response when no DB answer is found
 def generate_self_response(prompt):
-    response = openai.Chat.completions.create(
+    response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
