@@ -18,7 +18,7 @@ def is_prompt_relevant(prompt):
     )
 
     response = client.chat.completions.create(
-        model="gpt-4",
+        model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful analyst."},
             {"role": "user", "content": query},
@@ -46,7 +46,7 @@ def find_similar_questions_and_answers(user_input, df, model):
 def synthesize_final_answer(prompt, combined_answers):
     combined_text = " ".join(combined_answers)
     response = openai.ChatCompletion.create(
-        model="gpt-4",
+        model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": f"Summarize within 100 words and provide a coherent response based on the following and avoid repetition: {combined_text}"},
