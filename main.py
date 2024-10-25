@@ -23,8 +23,12 @@ if not check_password():
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
+
+if not os.path.isfile('./data/FAQ.csv'):
+    raise FileNotFoundError("The file FAQ.csv does not exist at the specified path.")
+
 # Load the questions and answers from the CSV file once
-df = pd.read_csv('./data/FAQ.csv', encoding='utf-8')
+df = pd.read_csv('./data/FAQ.csv', encoding='latin1')
 
 # Initialize SentenceTransformer model once
 model = SentenceTransformer('all-MiniLM-L6-v2')
