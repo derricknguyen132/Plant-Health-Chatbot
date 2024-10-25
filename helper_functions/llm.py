@@ -3,6 +3,7 @@ import streamlit as st
 import openai
 from dotenv import load_dotenv
 from openai import OpenAI
+from sentence_transformers import util
 
 # Load the API key from Streamlit secrets
 OPENAI_KEY = st.secrets['OPENAI_API_KEY']  # Access the key correctly
