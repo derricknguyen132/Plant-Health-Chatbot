@@ -1,6 +1,6 @@
-# Determine relevance of prompt
 import openai
 
+# Determine relevance of prompt
 def is_prompt_relevant(prompt):
     gardening_keywords = (
         "general greetings, gardening, plant care, fertilization, organic fertilizer, manure, compost, soil health, pests, "
@@ -13,6 +13,7 @@ def is_prompt_relevant(prompt):
         f"({gardening_keywords}), would someone looking for advice ask this: {prompt}?"
     )
 
+    # Updated method for version 1.0.0
     response = openai.Chat.completions.create(
         model="gpt-4",
         messages=[
@@ -41,18 +42,18 @@ def find_similar_questions_and_answers(user_input, df):
 # Function to synthesize the final answer using GPT
 def synthesize_final_answer(prompt, combined_answers):
     combined_text = " ".join(combined_answers)
-    response = openai.ChatCompletion.create(
+    response = openai.Chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": f"Summarize within 100 words and provide a coherent response based on the following and avoid repitition: {combined_text}"},
+            {"role": "user", "content": f"Summarize within 100 words and provide a coherent response based on the following and avoid repetition: {combined_text}"},
         ]
     )
     return response['choices'][0]['message']['content'].strip()
 
 # Function to generate a self-generated response when no DB answer is found
 def generate_self_response(prompt):
-    response = openai.ChatCompletion.create(
+    response = openai.Chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
