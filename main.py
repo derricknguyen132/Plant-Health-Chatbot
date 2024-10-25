@@ -4,7 +4,7 @@ import streamlit as st
 import openai
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
-
+from helper_functions.llm import is_prompt_relevant
 from logics.plant_health_handler import chatbot_response
 from utility import check_password
 from openai import OpenAI

@@ -1,5 +1,4 @@
 from helper_functions.llm import (
-    is_prompt_relevant,
     find_similar_questions_and_answers,
     synthesize_final_answer,
     generate_self_response
