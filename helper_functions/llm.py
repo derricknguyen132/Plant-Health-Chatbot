@@ -1,4 +1,7 @@
 import openai
+from openai import OpenAI
+
+client = OpenAI()
 
 # Determine relevance of prompt
 def is_prompt_relevant(prompt):
@@ -13,7 +16,7 @@ def is_prompt_relevant(prompt):
         f"({gardening_keywords}), would someone looking for advice ask this: {prompt}?"
     )
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful analyst."},
