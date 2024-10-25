@@ -1,8 +1,4 @@
 import openai
-from openai import OpenAI
-
-# Initialize OpenAI client
-client = OpenAI()
 
 # Determine relevance of prompt
 def is_prompt_relevant(prompt):

@@ -25,9 +25,15 @@ st.title("Plant Health Chatbot")
 if not check_password():  
     st.stop()
 
-# Load environment variables once
-openai.api_key = st.secrets['OPENAI_API_KEY']
+if load_dotenv('.env'):
+   # for local development
+   OPENAI_KEY = os.getenv('OPENAI_API_KEY')
+else:
+   OPENAI_KEY = st.secrets['OPENAI_API_KEY']
 
+
+# Pass the API Key to the OpenAI Client
+client = OpenAI(api_key=OPENAI_KEY)
 # Check if the CSV file exists
 faq_file_path = './data/FAQ.csv'
 if not os.path.isfile(faq_file_path):
