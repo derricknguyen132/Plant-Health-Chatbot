@@ -4,7 +4,12 @@ import openai
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
 import os
-from helper_functions.llm import is_prompt_relevant, find_similar_questions_and_answers, synthesize_final_answer, generate_self_response
+from helper_functions.llm import (
+    is_prompt_relevant,
+    find_similar_questions_and_answers,
+    synthesize_final_answer,
+    generate_self_response
+)
 from logics.plant_health_handler import chatbot_response
 from utility import check_password
 
@@ -24,17 +29,25 @@ if not check_password():
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
-
-if not os.path.isfile('./data/FAQ.csv'):
-    raise FileNotFoundError("The file FAQ.csv does not exist at the specified path.")
+# Check if the CSV file exists
+faq_file_path = './data/FAQ.csv'
+if not os.path.isfile(faq_file_path):
+    st.error("The file FAQ.csv does not exist at the specified path.")
+    st.stop()  # Stop the app if the file does not exist
 
 # Load the questions and answers from the CSV file once
-df = pd.read_csv('./data/FAQ.csv', encoding='latin1')
+try:
+    df = pd.read_csv(faq_file_path, encoding='latin1')
+except Exception as e:
+    st.error(f"Error loading FAQ.csv: {e}")
+    st.stop()
 
 # Initialize SentenceTransformer model once
-model = SentenceTransformer('all-MiniLM-L6-v2')
-
-
+try:
+    model = SentenceTransformer('all-MiniLM-L6-v2')
+except Exception as e:
+    st.error(f"Error initializing the SentenceTransformer model: {e}")
+    st.stop()
 
 # Create input form for user query
 form = st.form(key="form")
@@ -45,7 +58,10 @@ user_prompt = form.text_area("Enter your question here", height=200)
 # Process the user's input upon submission
 if form.form_submit_button("Submit"):
     st.toast(f"User Input Submitted - {user_prompt}")
-    
-    # Pass the initialized `df` and `model` to the chatbot logic
-    response = chatbot_response(user_prompt, df, model)
-    st.write(response)
+
+    # Check if the prompt is relevant before processing
+    if is_prompt_relevant(user_prompt):
+        response = chatbot_response(user_prompt, df, model)
+        st.write(response)
+    else:
+        st.warning("Your question seems to be outside the scope of gardening. Please try again.")
