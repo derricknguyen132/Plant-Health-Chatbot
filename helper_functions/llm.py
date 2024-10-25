@@ -1,4 +1,8 @@
 import openai
+from openai import OpenAI
+
+# Pass the API Key to the OpenAI Client
+client = OpenAI(api_key=OPENAI_KEY)
 
 # Determine relevance of prompt
 def is_prompt_relevant(prompt):
