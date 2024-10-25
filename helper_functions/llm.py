@@ -6,12 +6,12 @@ def is_prompt_relevant(prompt):
         "diseases, seeds, flowers, fruits, leaves, insect control, "
         "fungal issues, nematodes, bacteria, and viruses."
     )
-    
+
     query = (
         f"Answer 'Yes' or 'No'. Based on the keywords related to gardening and plant care "
         f"({gardening_keywords}), would someone looking for advice ask this: {prompt}?"
     )
-    
+
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
@@ -19,7 +19,7 @@ def is_prompt_relevant(prompt):
             {"role": "user", "content": query},
         ]
     )
-    
+
     answer = response['choices'][0]['message']['content'].strip().lower()
     return answer == "yes"
 
