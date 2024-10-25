@@ -3,8 +3,9 @@ import streamlit as st
 from dotenv import load_dotenv
 from openai import OpenAI
 
-OPENAI_KEY = st.secrets['OPENAI_API_KEY']
-
+# Load the API key from Streamlit secrets
+OPENAI_KEY = st.secrets['general']['OPENAI_API_KEY']  # Access the key correctly
+OpenAI.api_key = OPENAI_KEY  # Set the OpenAI API key
 
 # Pass the API Key to the OpenAI Client
 client = OpenAI(api_key=OPENAI_KEY)
