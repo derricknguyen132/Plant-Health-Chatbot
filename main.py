@@ -26,7 +26,6 @@ if not check_password():
     st.stop()
 
 # Load environment variables once
-load_dotenv()
 openai.api_key = st.secrets['OPENAI_API_KEY']
 
 # Check if the CSV file exists
