@@ -27,8 +27,7 @@ if not check_password():
 
 # Load environment variables once
 load_dotenv()
-os.environ['OPENAI_API_KEY'] = st.secrets['OPENAI_API_KEY']
-openai.api_key = os.environ['OPENAI_API_KEY']
+openai.api_key = st.secrets['OPENAI_API_KEY']
 
 # Check if the CSV file exists
 faq_file_path = './data/FAQ.csv'

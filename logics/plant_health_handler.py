@@ -1,3 +1,8 @@
+import streamlit as st
+import openai
+
+openai.api_key = st.secrets['OPENAI_API_KEY']
+
 # Main chatbot function that integrates all components
 def chatbot_response(prompt, df, model):
     if not is_prompt_relevant(prompt):
