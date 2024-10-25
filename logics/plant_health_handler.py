@@ -1,3 +1,10 @@
+from helper_functions.llm import (
+    is_prompt_relevant,
+    find_similar_questions_and_answers,
+    synthesize_final_answer,
+    generate_self_response
+)
+
 # Main chatbot function that integrates all components
 def chatbot_response(prompt, df, model):
     combined_answers = find_similar_questions_and_answers(prompt, df)
