@@ -12,6 +12,7 @@ from helper_functions.llm import (
 )
 from logics.plant_health_handler import chatbot_response
 from utility import check_password
+from openai import OpenAI
 
 # Streamlit App Configuration
 st.set_page_config(
@@ -34,6 +35,7 @@ else:
 
 # Pass the API Key to the OpenAI Client
 client = OpenAI(api_key=OPENAI_KEY)
+
 # Check if the CSV file exists
 faq_file_path = './data/FAQ.csv'
 if not os.path.isfile(faq_file_path):
