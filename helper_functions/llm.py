@@ -64,7 +64,7 @@ def synthesize_final_answer(prompt, combined_answers):
 
 # Function to generate a self-generated response when no DB answer is found
 def generate_self_response(prompt):
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
