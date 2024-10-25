@@ -1,12 +1,8 @@
 import openai
 from openai import OpenAI
-import streamlit as st
-
-
-openai.api_key = st.secrets['OPENAI_API_KEY']
 
 # Initialize OpenAI client
-client = OpenAI(api_key="API_KEY_OPENAI")
+client = OpenAI(api_key="OPENAI_API_KEY")
 
 # Determine relevance of prompt
 def is_prompt_relevant(prompt):
