@@ -1,0 +1,6 @@
+streamlit
+pandas
+openai
+sentence-transformers
+transformers
+python-dotenv
