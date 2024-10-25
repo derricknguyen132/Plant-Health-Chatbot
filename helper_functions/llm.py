@@ -24,6 +24,20 @@ def is_prompt_relevant(prompt):
     answer = response['choices'][0]['message']['content'].strip().lower()
     return answer == "yes"
 
+#Find similar questions in database as compared to prompt
+def find_similar_questions_and_answers(user_input, df, model):
+    df_embeddings = model.encode(df['questions'].tolist(), convert_to_tensor=True)
+    user_embedding = model.encode(user_input, convert_to_tensor=True)
+    cosine_scores = util.pytorch_cos_sim(user_embedding, df_embeddings)[0]
+
+    # Collect answers based on similarity
+    combined_answers = []
+    for index, score in enumerate(cosine_scores):
+        if score > 0.65:  # Adjust threshold as needed
+            combined_answers.append(df.iloc[index]['answers'])
+
+    return combined_answers
+
 # Function to synthesize the final answer using GPT
 def synthesize_final_answer(prompt, combined_answers):
     combined_text = " ".join(combined_answers)
