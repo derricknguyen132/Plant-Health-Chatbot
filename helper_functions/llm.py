@@ -1,4 +1,5 @@
 # Determine relevance of prompt
+import openai
 
 def is_prompt_relevant(prompt):
     gardening_keywords = (

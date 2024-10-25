@@ -28,9 +28,6 @@ if not check_password():
 # Load environment variables once
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
-if openai.api_key is None:
-    st.error("OpenAI API key is not set. Please check your .env file.")
-    st.stop()
 
 # Check if the CSV file exists
 faq_file_path = './data/FAQ.csv'
