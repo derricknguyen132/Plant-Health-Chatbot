@@ -45,7 +45,7 @@ def find_similar_questions_and_answers(user_input, df, model):
     # Collect answers based on similarity
     combined_answers = []
     for index, score in enumerate(cosine_scores):
-        if score > 0.6:  # Adjust threshold as needed
+        if score > 0.7:  # Adjust threshold as needed
             combined_answers.append(df.iloc[index]['answers'])
 
     return combined_answers
