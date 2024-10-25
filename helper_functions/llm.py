@@ -13,7 +13,7 @@ def is_prompt_relevant(prompt):
         f"({gardening_keywords}), would someone looking for advice ask this: {prompt}?"
     )
 
-    response = openai.ChatCompletion.create(
+    response = openai.Chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful analyst."},
