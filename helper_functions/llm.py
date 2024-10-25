@@ -1,6 +1,7 @@
 import openai
 from openai import OpenAI
 
+# Initialize OpenAI client
 client = OpenAI()
 
 # Determine relevance of prompt
@@ -24,10 +25,10 @@ def is_prompt_relevant(prompt):
         ]
     )
 
-    answer = response['choices'][0]['message']['content'].strip().lower()
+    answer = response.choices[0].message.content.strip().lower()  # Accessing the response correctly
     return answer == "yes"
 
-#Find similar questions in database as compared to prompt
+# Find similar questions in the database compared to the prompt
 def find_similar_questions_and_answers(user_input, df, model):
     df_embeddings = model.encode(df['questions'].tolist(), convert_to_tensor=True)
     user_embedding = model.encode(user_input, convert_to_tensor=True)
@@ -51,7 +52,7 @@ def synthesize_final_answer(prompt, combined_answers):
             {"role": "user", "content": f"Summarize within 100 words and provide a coherent response based on the following and avoid repetition: {combined_text}"},
         ]
     )
-    return response['choices'][0]['message']['content'].strip()
+    return response.choices[0].message.content.strip()  # Accessing the response correctly
 
 # Function to generate a self-generated response when no DB answer is found
 def generate_self_response(prompt):
@@ -62,4 +63,4 @@ def generate_self_response(prompt):
             {"role": "user", "content": f"I cannot find any answers in my database for the following question: '{prompt}'. Please provide a general response in plant and gardening context."},
         ]
     )
-    return response['choices'][0]['message']['content'].strip()
+    return response.choices[0].message.content.strip()  # Accessing the response correctly
