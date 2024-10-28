@@ -10,15 +10,15 @@ import pandas as pd
 import base64
 
 # Load the API key from Streamlit secrets
-OPENAI_KEY = st.secrets['OPENAI_API_KEY']  # Access the key correctly
+OPENAI_KEY = st.secrets['OPENAI_API_KEY']  # Access open ai API key for language model
 OpenAI.api_key = OPENAI_KEY  # Set the OpenAI API key
 
-GITHUB_TOKEN = st.secrets['GITHUB_TOKEN']
+GITHUB_TOKEN = st.secrets['GITHUB_TOKEN'] # Access git hub api token for logging queries and answers
 
 # Pass the API Key to the OpenAI Client
 client = OpenAI(api_key=OPENAI_KEY)
 
-# Determine relevance of prompt
+# Determine relevance of prompt to avoid abuse - checkpoint for future categorizing of queries to access a fragment of big database
 def is_prompt_relevant(prompt):
     gardening_keywords = (
         "general greetings, gardening, plant care, fertilization, organic fertilizer, manure, compost, soil health, pests, "
@@ -51,7 +51,7 @@ def find_similar_questions_and_answers(user_input, df, model):
     # Collect answers based on similarity
     combined_answers = []
     for index, score in enumerate(cosine_scores):
-        if score > 0.65:  # Adjust threshold as needed
+        if score > 0.65:  
             combined_answers.append(df.iloc[index]['answers'])
 
     return combined_answers
@@ -66,15 +66,15 @@ def synthesize_final_answer(prompt, combined_answers):
             {"role": "user", "content": f"Summarize within 100 words and provide a coherent response based on the following and avoid repetition: {combined_text}"},
         ]
     )
-    return response.choices[0].message.content.strip()  # Accessing the response correctly
+    return response.choices[0].message.content.strip()  
 
-# Function to generate a self-generated response when no DB answer is found
+# Function to generate a self-generated response when no answer in database is found
 def generate_self_response(prompt):
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": f"I cannot find any answers in my database for the following question: '{prompt}'. Please provide a general response in plant and gardening context."},
+            {"role": "user", "content": f"I cannot find any answers in my database for the following question: '{prompt}'. Please provide a response in plant and gardening context."},
         ]
     )
     return response.choices[0].message.content.strip()  # Accessing the response correctly
@@ -104,8 +104,8 @@ def log_conversation(user_prompt, response, source, folder='Plant-Health-Chatbot
     upload_to_github(file_path)
 
 def upload_to_github(file_path):
-    GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')  # Use an environment variable for security
-    REPO_NAME = 'derricknguyen132/Plant-Health-Chatbot'  # Replace with your repository name
+    GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')  
+    REPO_NAME = 'derricknguyen132/Plant-Health-Chatbot'  
 
     url = f'https://api.github.com/repos/{REPO_NAME}/contents/{os.path.basename(file_path)}'
     

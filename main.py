@@ -23,19 +23,20 @@ if not check_password():
     st.stop()
 
 # Check if the CSV file exists
+
 faq_file_path = './data/FAQ.csv'
 if not os.path.isfile(faq_file_path):
     st.error("The file FAQ.csv does not exist at the specified path.")
     st.stop()  # Stop the app if the file does not exist
 
-# Load the questions and answers from the CSV file once
+# Load the database of questions and answers from the CSV file 
 try:
     df = pd.read_csv(faq_file_path, encoding='latin1')
 except Exception as e:
     st.error(f"Error loading FAQ.csv: {e}")
     st.stop()
 
-# Initialize SentenceTransformer model once
+# Initialize SentenceTransformer model 
 try:
     model = SentenceTransformer('all-MiniLM-L6-v2')
 except Exception as e:
@@ -55,6 +56,6 @@ if form.form_submit_button("Submit"):
     if is_prompt_relevant(user_prompt):
         response, source = chatbot_response(user_prompt, df, model)
         st.write(response)
-        log_conversation(user_prompt, response, source)
+        log_conversation(user_prompt, response, source) # append query and final answer to log file
     else:
         st.warning("Your question seems to be outside the scope of gardening. Please try again.")
