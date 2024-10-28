@@ -7,6 +7,7 @@ from sentence_transformers import util
 from datetime import datetime
 import requests
 import pandas as pd
+import base64
 
 # Load the API key from Streamlit secrets
 OPENAI_KEY = st.secrets['OPENAI_API_KEY']  # Access the key correctly
