@@ -1,13 +1,14 @@
 import os
 import pandas as pd
 import streamlit as st
-import openai
+import requests
+import base64
+from datetime import datetime
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
-from helper_functions.llm import is_prompt_relevant
+from helper_functions.llm import is_prompt_relevant, log_conversation
 from logics.plant_health_handler import chatbot_response
 from utility import check_password
-from openai import OpenAI
 
 # Streamlit App Configuration
 st.set_page_config(
@@ -51,9 +52,9 @@ user_prompt = form.text_area("Enter your question here", height=200)
 if form.form_submit_button("Submit"):
     st.toast(f"User Input Submitted - {user_prompt}")
 
-    # Check if the prompt is relevant before processing
     if is_prompt_relevant(user_prompt):
-        response = chatbot_response(user_prompt, df, model)
+        response, source = chatbot_response(user_prompt, df, model)
         st.write(response)
+        log_conversation(user_prompt, response, source)
     else:
         st.warning("Your question seems to be outside the scope of gardening. Please try again.")

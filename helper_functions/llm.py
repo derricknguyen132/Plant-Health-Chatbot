@@ -4,6 +4,9 @@ import openai
 from dotenv import load_dotenv
 from openai import OpenAI
 from sentence_transformers import util
+from datetime import datetime
+import requests
+import pandas as pd
 
 # Load the API key from Streamlit secrets
 OPENAI_KEY = st.secrets['OPENAI_API_KEY']  # Access the key correctly
@@ -72,3 +75,63 @@ def generate_self_response(prompt):
         ]
     )
     return response.choices[0].message.content.strip()  # Accessing the response correctly
+
+# Function to log conversation to CSV and upload to GitHub
+def log_conversation(user_prompt, response, source, folder='Plant-Health-Chatbot/data', filename='chat_log.csv'):
+    # Ensure the folder exists
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
+    # Full path to the CSV file
+    file_path = os.path.join(folder, filename)
+
+    # Prepare data for logging
+    log_data = {
+        'query': user_prompt,
+        'datetime': datetime.now().isoformat(),
+        'response': response,
+        'source': source
+    }
+    
+    # Create a DataFrame and append to CSV
+    log_df = pd.DataFrame([log_data])
+    log_df.to_csv(file_path, mode='a', header=not os.path.isfile(file_path), index=False)
+
+    # Upload to GitHub
+    upload_to_github(file_path)
+    
+def upload_to_github(file_path):
+    GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')  # Use an environment variable for security
+    REPO_NAME = 'derricknguyen132/Plant-Health-Chatbot'  # Replace with your repository name
+
+    url = f'https://api.github.com/repos/{REPO_NAME}/contents/{os.path.basename(file_path)}'
+    
+    # Read the file and encode it
+    with open(file_path, 'rb') as f:
+        content = f.read()
+    content_b64 = base64.b64encode(content).decode('utf-8')
+
+    # Check if the file already exists
+    response = requests.get(url, headers={'Authorization': f'token {GITHUB_TOKEN}'})
+    
+    if response.status_code == 200:
+        # File exists, need to update it
+        sha = response.json()['sha']
+        data = {
+            'message': 'Updating chat log CSV file',
+            'content': content_b64,
+            'sha': sha
+        }
+    else:
+        # File does not exist, create it
+        data = {
+            'message': 'Uploading chat log CSV file',
+            'content': content_b64
+        }
+
+    # Upload or update the file
+    response = requests.put(url, json=data, headers={'Authorization': f'token {GITHUB_TOKEN}'})
+    if response.status_code in [200, 201]:
+        print('File uploaded successfully!')
+    else:
+        print('Failed to upload file:', response.json())
