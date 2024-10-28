@@ -12,6 +12,8 @@ import pandas as pd
 OPENAI_KEY = st.secrets['OPENAI_API_KEY']  # Access the key correctly
 OpenAI.api_key = OPENAI_KEY  # Set the OpenAI API key
 
+GITHUB_TOKEN = st.secrets['GITHUB_TOKEN']
+
 # Pass the API Key to the OpenAI Client
 client = OpenAI(api_key=OPENAI_KEY)
 
@@ -99,7 +101,7 @@ def log_conversation(user_prompt, response, source, folder='Plant-Health-Chatbot
 
     # Upload to GitHub
     upload_to_github(file_path)
-    
+
 def upload_to_github(file_path):
     GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')  # Use an environment variable for security
     REPO_NAME = 'derricknguyen132/Plant-Health-Chatbot'  # Replace with your repository name
