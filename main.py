@@ -16,7 +16,7 @@ st.set_page_config(
 st.title("Plant Health Chatbot")
 
 # Check password to proceed
-if not check_password():  
+if not check_password():
     st.stop()
 
 # Load FAQ data
@@ -57,7 +57,7 @@ with st.form(key="form"):
     submitted = st.form_submit_button("Submit")
 
 # Process user input upon submission
-if submitted:
+if submitted and user_prompt:  # Ensure user_prompt is not empty
     st.session_state.messages.append({"role": "user", "content": user_prompt})
 
     if is_prompt_relevant(user_prompt):
@@ -67,3 +67,7 @@ if submitted:
     else:
         response = "Your question seems to be outside the scope of gardening. Please try again."
         st.session_state.messages.append({"role": "bot", "content": response})
+
+    # Clear input after submission (optional)
+    st.experimental_rerun()  # Refresh the app to show new messages
+
