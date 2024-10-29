@@ -66,6 +66,3 @@ if form.form_submit_button("Submit"):
     else:
         response = "Your question seems to be outside the scope of gardening. Please try again."
         st.session_state.messages.append({"role": "bot", "content": response})
-
-    # Refresh chat display
-    st.experimental_rerun()
