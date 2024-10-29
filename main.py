@@ -51,14 +51,15 @@ for msg in st.session_state.messages:
         st.markdown(f"**Bot:** {msg['content']}")
 
 # Create input form for user query
-form = st.form(key="form")
-form.subheader("Ask your gardening question")
-user_prompt = form.text_area("Enter your question here", height=100)
+with st.form(key="form"):
+    st.subheader("Ask your gardening question")
+    user_prompt = st.text_area("Enter your question here", height=100)
+    submitted = st.form_submit_button("Submit")
 
 # Process user input upon submission
-if form.form_submit_button("Submit"):
+if submitted:
     st.session_state.messages.append({"role": "user", "content": user_prompt})
-    
+
     if is_prompt_relevant(user_prompt):
         response, source = chatbot_response(user_prompt, df, model)
         st.session_state.messages.append({"role": "bot", "content": response})
