@@ -68,6 +68,9 @@ if submitted and user_prompt:  # Ensure user_prompt is not empty
         response = "Your question seems to be outside the scope of gardening. Please try again."
         st.session_state.messages.append({"role": "bot", "content": response})
 
-    # Clear input after submission (optional)
-    st.experimental_rerun()  # Refresh the app to show new messages
+    # Instead of experimental_rerun, you can set a session state variable to trigger a rerun
+    st.session_state.last_query = user_prompt  # Add this line to trigger refresh
 
+# Automatically refresh by checking if last_query exists
+if 'last_query' in st.session_state:
+    del st.session_state.last_query  # Clear after rerun
