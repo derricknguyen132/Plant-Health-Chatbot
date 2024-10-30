@@ -5,9 +5,6 @@ from utility import check_password
 if not check_password():
     st.stop()
 
-# About Us Page Content
-st.title("About Us")
-
 st.header("Problem Statement")
 st.write("""
 Plant enthusiasts and hobbyists often face challenges in nurturing and maintaining their plants' health. 
