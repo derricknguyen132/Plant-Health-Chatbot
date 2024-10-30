@@ -5,3 +5,4 @@ sentence-transformers>=2.2
 transformers>=4.0
 python-dotenv>=0.21
 requests>=2.25
+Pillow
