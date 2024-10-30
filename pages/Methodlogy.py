@@ -6,9 +6,6 @@ from utility import check_password
 if not check_password():
     st.stop()
 
-# About Us Page Content
-st.title("About Us")
-
 # Load and display the image
 image_path = './data/User_Prompt.jpg'
 try:
