@@ -1,16 +1,8 @@
 import streamlit as st
 from PIL import Image  # Import PIL to handle image loading
+from utility import check_password
 
-# Function to check password (replace with your actual password checking logic)
-def check_password():
-    password = st.text_input("Enter your password:", type="password")
-    if password == "your_password":  # Replace "your_password" with your actual password
-        return True
-    else:
-        st.warning("⚠️ Incorrect password.")
-        return False
-
-# Password protection for the About Us page
+# Password protection for the Methodology page
 if not check_password():
     st.stop()
 

@@ -1,13 +1,5 @@
 import streamlit as st
-
-# Function to check password (replace with your actual password checking logic)
-def check_password():
-    password = st.text_input("Enter your password:", type="password")
-    if password == "your_password":  # Replace "your_password" with your actual password
-        return True
-    else:
-        st.warning("⚠️ Incorrect password.")
-        return False
+from utility import check_password
 
 # Password protection for the About Us page
 if not check_password():
