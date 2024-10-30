@@ -7,7 +7,7 @@ if not check_password():
     st.stop()
 
 # Title of the page
-st.title("User Guide for Chatbot")
+st.title("Using Guide for Chatbot")
 
 # Welcome message
 st.write("Hello, welcome to our gardening advice app! For the best experience, please take note of the following:")
