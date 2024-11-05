@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from helper_functions.llm import is_prompt_relevant, log_conversation
 from logics.plant_health_handler import chatbot_response
 from utility import check_password
+import io  # Correct import for StringIO
 
 # Load environment variables (including GitHub token)
 load_dotenv()
@@ -33,8 +34,9 @@ def fetch_file_from_github():
         
         # Decode the content from base64
         file_content = base64.b64decode(response.json()['content']).decode('utf-8')
-        # Load CSV content into pandas DataFrame
-        df = pd.read_csv(pd.compat.StringIO(file_content), encoding='latin1')
+        
+        # Load CSV content into pandas DataFrame using io.StringIO
+        df = pd.read_csv(io.StringIO(file_content), encoding='latin1')
         return df
     
     except requests.exceptions.RequestException as e:
